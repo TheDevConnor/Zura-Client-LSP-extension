@@ -31,4 +31,34 @@ From the root directory of this project, run `code .` Then in VS Code
 ## Running in Nvim
 In your init.lua past the following into the config
 ```lua
+vim.filetype.add {
+  extension = {
+    zu = "zura", -- Map .zu files to zura
+  },
+}
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "FileType" }, {
+  pattern = { "*.zu", "zura" },
+  callback = function()
+    -- Ensure .zu files are recognized as zura
+    if vim.fn.expand "%:e" == "zu" then vim.bo.filetype = "zura" end
+
+    -- Apply Zura-specific options and start the LSP
+    if vim.bo.filetype == "zura" then
+      vim.bo.tabstop = 4
+      vim.bo.shiftwidth = 4
+      vim.bo.expandtab = true
+
+      -- Start the custom LSP
+      vim.lsp.start {
+        name = "Zura Lsp",
+        cmd = {
+          "npx",
+          "ts-node",
+          vim.fn.expand "~/Projects/Zura-Lsp/server/src/server.ts",
+        },
+      }
+    end
+  end,
+})
 ```
