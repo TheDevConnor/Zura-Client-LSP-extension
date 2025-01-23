@@ -1,4 +1,5 @@
 import { RequestMessage } from "../server";
+import { completion } from "./textDocument/completion";
 
 type ServerCapabilities = Record<string, unknown>;
 
@@ -13,11 +14,9 @@ interface InitializeResult {
 export const initialize = (msg: RequestMessage): InitializeResult => {
     return {
         capabilities: { 
+            completionProvider: {},
             textDocumentSync: 1,
-            completionProvider: {
-                resolveProvider: true,
-                triggerCharacters: ["@", ".", " "],
-            },
+            hoverProvider: true,
         },
         serverInfo: {
             name: "zura-lsp",
