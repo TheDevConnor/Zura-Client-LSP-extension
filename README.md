@@ -37,28 +37,31 @@ vim.filetype.add {
   },
 }
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "FileType" }, {
-  pattern = { "*.zu", "zura" },
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.zu" },
   callback = function()
     -- Ensure .zu files are recognized as zura
-    if vim.fn.expand "%:e" == "zu" then vim.bo.filetype = "zura" end
+    vim.bo.filetype = "zura"
 
-    -- Apply Zura-specific options and start the LSP
-    if vim.bo.filetype == "zura" then
-      vim.bo.tabstop = 4
-      vim.bo.shiftwidth = 4
-      vim.bo.expandtab = true
-
-      -- Start the custom LSP
-      vim.lsp.start {
-        name = "Zura Lsp",
-        cmd = {
-          "npx",
-          "ts-node",
-          vim.fn.expand "~/Projects/Zura-Lsp/server/src/server.ts",
-        },
-      }
+    -- Check if the LSP is already attached
+    local clients = vim.lsp.get_clients()
+    for _, client in ipairs(clients) do
+      if client.name == "Zura Lsp" and client.config.cmd[3] == vim.fn.expand "~/Projects/Zura-Lsp/server/src/server.ts" then
+        return
+      end
     end
+
+    -- Start the custom LSP
+    vim.lsp.start {
+      name = "Zura Lsp",
+      cmd = {
+        "npx",
+        "ts-node",
+        vim.fn.expand "~/Projects/Zura-Lsp/server/src/server.ts",
+      },
+      root_dir = vim.fn.getcwd(), -- Optionally set a root directory
+    }
   end,
 })
+
 ```

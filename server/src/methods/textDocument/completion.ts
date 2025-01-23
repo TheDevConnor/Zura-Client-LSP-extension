@@ -21,24 +21,16 @@ interface TextDocumentPositionParams {
 export interface CompletionParams extends TextDocumentPositionParams {}
 
 export const completion = (msg: RequestMessage): CompletionList => {
-    // const params = msg.params as CompletionParams;
-    // const content = documents.get(params.textDocument.uri);
-
-    // if (!content) {
-    //     log.write(`Document not found: ${params.textDocument.uri}`);
-    //     return { isIncomplete: false, items: [] };
-    // }
-
-    // const currentLine = content.split("\n")[params.position.line];
-    // const lineUntilCursor = currentLine.slice(0, params.position.character);
+    log.write("Completion request received: " + JSON.stringify(msg));
 
     return {
         isIncomplete: true,
         items: items.map(item => ({
             label: item.label,
             documentation: item.documentation,
-            insertText: item.snippet || item.label,
-            insertTextFormat: item.snippet ? 1 : undefined,
-        }))
+            detail: item.detail,
+            insertText: item.snippet || item.label, // Default to label if snippet is missing
+            insertTextFormat: item.snippet ? 2 : 1, // 2 = Snippet, 1 = Plain text
+        })),
     };
 };

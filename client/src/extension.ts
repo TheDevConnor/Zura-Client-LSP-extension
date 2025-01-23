@@ -34,6 +34,9 @@ export function activate(context: ExtensionContext) {
       // Notify the server about file changes to '.clientrc files contained in the workspace
       fileEvents: workspace.createFileSystemWatcher("**/.zu"),
     },
+    initializationOptions: {
+      triggerCharacters: ["@", "."],
+    },
   };
 
   // Create the language client and start the client.
