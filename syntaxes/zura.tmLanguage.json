@@ -1,0 +1,166 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Zura",
+  
+    "patterns": [
+      {
+        "include": "#comments"
+      },
+      {
+        "include": "#operations"
+      },
+      {
+        "include": "#strings"
+      },
+      {
+        "include": "#numbers"
+      },
+      {
+        "include": "#reserved-words"
+      },
+      {
+        "include": "#builtin-types"
+      },
+      {
+        "include": "#ctr-statements"
+      },
+      {
+        "include": "#reserved-words2"
+      }
+    ],
+    "repository": {
+      "comments": {
+        "patterns": [
+          {
+            "name": "comment.line.number-sign.zura",
+            "match": "#.*"
+          },
+          {
+            "name": "comment.block.zura",
+            "begin": "/\\*",
+            "end": "\\*/"
+          }
+        ]
+      },
+      "operations": {
+        "patterns": [
+          {
+            "name": "keyword.operator.math.zura",
+            "match": "(\\+|-|\\*|/|%)"
+          },
+          {
+            "name": "keyword.operator.comparison.zura",
+            "match": "(==|!=|<|>|<=|>=)"
+          },
+          {
+            "name": "keyword.operator.condition.zura",
+            "match": "\\b(!|&&|\\|\\|)\\b"
+          },
+          {
+            "name": "keyword.operator.declaration.zura",
+            "match": ":=",
+            "captures": {
+              "0": {
+                "name": "punctuation.definition.declaration.zura"
+              }
+            }
+          },
+          {
+            "name": "keyword.operator.assignment.zura",
+            "match": "=",
+            "captures": {
+              "0": {
+                "name": "punctuation.definition.assignment.zura"
+              }
+            }
+          }
+        ]
+      },
+      "strings": {
+        "name": "string.quoted.double.zura",
+        "begin": "\"",
+        "end": "\"",
+        "patterns": [
+          {
+            "name": "constant.character.escape.zura",
+            "match": "\\\\."
+          }
+        ]
+      },
+      "numbers": {
+        "patterns": [
+          {
+            "name": "constant.numeric.zura",
+            "match": "\\b(\\d+(\\.\\d+)?)\\b"
+          }
+        ]
+      },
+      "ctr-statements": {
+        "patterns": [
+          {
+            "match": "\\b(if|else|loop|import|match|case|default|return|break|continue)\\b",
+            "name": "keyword.control.zura"
+          },
+                  {
+                      "name": "support.function.at",
+                      "match": "@(cast|import|link|extern|call|output|input)"
+                  }
+        ]
+      },
+      "reserved-words": {
+        "patterns": [
+          {
+            "name": "keyword.zura",
+            "match": "\\b(const|have|struct|enum|union|fn|pub|priv|template|typename|auto|true|false|nil|if|else|loop|import|match|case|default|return|break|continue)\\b"
+          },
+          {
+            "name": "storage.type.zura",
+            "match": "\\b(struct|enum|union|fn)\\b"
+          },
+          {
+            "name": "storage.modifier.publicity.zura",
+            "match": "\\b(pub|priv)\\b"
+                  }
+        ]
+      },
+      "reserved-words2": {
+        "patterns": [
+          {
+            "name": "storage.typealias.zura",
+            "match": "\\btypename\\b"
+          },
+                  {
+                      "name": "storage.typealias.zura",
+                      "match": "@(template)"
+                  },
+          {
+            "name": "variable.name.declaration.typed.zura",
+            "match": "have\\s+([A-Za-z_]+[A-Za-z0-9_]*)(:\\s*([A-Za-z_]+[A-Za-z0-9_]*))?\\s*=",
+            "captures": {
+              "1": {
+                "name": "variable.name.declaration.zura"
+              }
+            }
+          },
+          {
+            "name": "variable.name.declaration.auto.zura",
+            "match": "auto\\s+([A-Za-z_]+[A-Za-z0-9_]*)\\s*=",
+            "captures": {
+              "1": {
+                "name": "variable.name.declaration.zura"
+              }
+            }
+          }
+        ]
+      },
+      "builtin-types": {
+        "patterns": [
+          {
+            "name": "storage.type.builtin.zura",
+            "match": "\\b(int|float|str|bool|void|char)\\b"
+          }
+        ]
+      }
+    },
+    "scopeName": "source.zu"
+  }
