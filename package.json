@@ -25,14 +25,14 @@
 			{
 				"type": "zura",
 				"label": "Zura Language Server",
-				"runtime": "REPLACE WITH ZURA PATH",
-				"program": "REPLACE WITH ZURA PATH",
+				"runtime": "zura",
+				"program": "zura",
 				"args": ["--debugger"],
 				"deprecated": "",
 				"hiddenWhen": "",
 				"languages": ["zura"],
 				"linux": {
-					"runtime": "REPLACE WITH ZURA PATH"
+					"runtime": "zura"
 				},
 				"when": "",
 				"variables": {},

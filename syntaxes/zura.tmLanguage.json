@@ -1,152 +1,186 @@
 {
-  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "name": "Zura",
-  "scopeName": "source.zu",
-  "patterns": [
-    { "include": "#comments" },
-    { "include": "#strings" },
-    { "include": "#numbers" },
-    { "include": "#operations" },
-    { "include": "#reserved-words" },
-    { "include": "#builtin-types" },
-    { "include": "#ctr-statements" },
-    { "include": "#builtin-macros" },
-    { "include": "#function-declarations" },
-    { "include": "#variables" }
-  ],
-  "repository": {
-    "comments": {
-      "patterns": [
-        {
-          "name": "comment.line.number-sign.zura",
-          "match": "#.*$"
-        },
-        {
-          "name": "comment.block.zura",
-          "begin": "/\\*",
-          "end": "\\*/"
-        }
-      ]
-    },
-    "strings": {
-      "patterns": [
-        {
-          "name": "string.quoted.double.zura",
-          "begin": "\"",
-          "end": "\"",
-          "patterns": [
-            { "name": "constant.character.escape.zura", "match": "\\\\." }
-          ]
-        },
-        {
-          "name": "string.quoted.single.zura",
-          "begin": "'",
-          "end": "'",
-          "patterns": [
-            { "name": "constant.character.escape.zura", "match": "\\\\." }
-          ]
-        }
-      ]
-    },
-    "numbers": {
-      "patterns": [
-        {
-          "name": "constant.numeric.zura",
-          "match": "\\b\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b"
-        }
-      ]
-    },
-    "operations": {
-      "patterns": [
-        {
-          "name": "keyword.operator.math.zura",
-          "match": "[+\\-*/%]"
-        },
-        {
-          "name": "keyword.operator.comparison.zura",
-          "match": "==|!=|<=|>=|<|>"
-        },
-        {
-          "name": "keyword.operator.logical.zura",
-          "match": "\\b(!|&&|\\|\\|)\\b"
-        },
-        {
-          "name": "keyword.operator.assignment.zura",
-          "match": ":=|=",
-          "captures": {
-            "0": { "name": "punctuation.definition.assignment.zura" }
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Zura",
+  
+    "patterns": [
+      {
+        "include": "#comments"
+      },
+      {
+        "include": "#operations"
+      },
+      {
+        "include": "#strings"
+      },
+      {
+        "include": "#numbers"
+      },
+      {
+        "include": "#reserved-words"
+      },
+      {
+        "include": "#builtin-types"
+      },
+      {
+        "include": "#ctr-statements"
+      },
+      {
+        "include": "#reserved-words2"
+      }
+    ],
+    "repository": {
+      "comments": {
+        "patterns": [
+          {
+            "name": "comment.line.number-sign.zura",
+            "match": "#.*"
+          },
+          {
+            "name": "comment.block.zura",
+            "begin": "/\\*",
+            "end": "\\*/"
           }
-        },
-        {
-          "name": "punctuation.separator.zura",
-          "match": "[(){}\\[\\],;]"
-        }
-      ]
-    },
-    "builtin-types": {
-      "patterns": [
-        {
-          "name": "storage.type.builtin.zura",
-          "match": "\\b(int|float|bool|str|char|void)\\b"
-        }
-      ]
-    },
-    "ctr-statements": {
-      "patterns": [
-        {
-          "name": "keyword.control.conditional.zura",
-          "match": "\\b(if|else|match|case|default)\\b"
-        },
-        {
-          "name": "keyword.control.loop.zura",
-          "match": "\\b(loop|break|continue)\\b"
-        },
-        {
-          "name": "keyword.control.flow.zura",
-          "match": "\\b(return|import)\\b"
-        }
-      ]
-    },
-    "reserved-words": {
-      "patterns": [
-        {
-          "name": "keyword.declaration.zura",
-          "match": "\\b(const|fn|have|auto|struct|enum|typename|template|pub|priv|true|false|nil)\\b"
-        },
-        {
-          "name": "storage.modifier.zura",
-          "match": "\\b(const|pub|priv)\\b"
-        }
-      ]
-    },
-    "builtin-macros": {
-      "patterns": [
-        {
-          "name": "support.function.builtin.zura",
-          "match": "@\\w+"
-        }
-      ]
-    },
-    "function-declarations": {
-      "patterns": [
-        {
-          "name": "entity.name.function.zura",
-          "match": "\\bfn\\s+([A-Za-z_][A-Za-z0-9_]*)",
-          "captures": {
-            "1": {
-              "name": "entity.name.function.zura"
+        ]
+      },
+      "operations": {
+        "patterns": [
+          {
+            "name": "keyword.operator.math.zura",
+            "match": "(\\+|-|\\*|/|%)"
+          },
+          {
+            "name": "keyword.operator.dereference.zura",
+            "match": "(?<=[A-Za-z_][A-Za-z0-9_]*)&"
+          },
+          {
+            "name": "keyword.operator.reference.zura",
+            "match": "&(?=[A-Za-z_][A-Za-z0-9_]*)"
+          },
+          {
+            "name": "keyword.operator.comparison.zura",
+            "match": "(==|!=|<|>|<=|>=)"
+          },
+          {
+            "name": "keyword.operator.condition.zura",
+            "match": "\\b(!|&&|\\|\\|)\\b"
+          },
+          {
+            "name": "keyword.operator.declaration.zura",
+            "match": ":=",
+            "captures": {
+              "0": {
+                "name": "punctuation.definition.declaration.zura"
+              }
+            }
+          },
+          {
+            "name": "keyword.operator.assignment.zura",
+            "match": "=",
+            "captures": {
+              "0": {
+                "name": "punctuation.definition.assignment.zura"
+              }
             }
           }
-        }
-      ]
+        ]
+      },
+      "strings": {
+        "name": "string.quoted.double.zura",
+        "begin": "\"",
+        "end": "\"",
+        "patterns": [
+          {
+            "name": "constant.character.escape.zura",
+            "match": "\\\\."
+          }
+        ]
+      },
+      "numbers": {
+        "patterns": [
+          {
+            "name": "constant.numeric.zura",
+            "match": "\\b(\\d+(\\.\\d+)?)\\b"
+          }
+        ]
+      },
+      "ctr-statements": {
+        "patterns": [
+          {
+            "match": "\\b(if|else|loop|import|match|case|default|return|break|continue)\\b",
+            "name": "keyword.control.zura"
+          },
+          {
+              "name": "support.function.at",
+              "match": "@(cast|import|link|extern|call|outputln|output|input|alloc|free|open|close|memcpy|sizeof|strcmp|getArgc|getArgv|recv|send|streq)"
+          }
+        ]
+      },
+      "reserved-words": {
+        "patterns": [
+          {
+            "name": "keyword.zura",
+            "match": "\\b(const|have|struct|enum|union|fn|pub|priv|template|typename|auto|if|else|loop|import|match|case|default|return|break|continue)\\b"
+          },
+          {
+            "name": "storage.type.zura",
+            "match": "\\b(struct|enum|union|fn)\\b"
+          },
+          {
+            "name": "storage.modifier.publicity.zura",
+            "match": "\\b(pub|priv)\\b"
+          }
+        ]
+      },
+      "reserved-words2": {
+        "patterns": [
+          {
+            "name": "storage.typealias.zura",
+            "match": "\\btypename\\b"
+          },
+          {
+              "name": "storage.typealias.zura",
+              "match": "@(template)"
+          },
+          {
+            "name": "variable.name.declaration.typed.zura",
+            "match": "have\\s+([A-Za-z_]+[A-Za-z0-9_]*)(:\\s*([A-Za-z_]+[A-Za-z0-9_]*))?\\s*=",
+            "captures": {
+              "1": {
+                "name": "variable.name.declaration.zura"
+              }
+            }
+          },
+          {
+            "name": "variable.name.declaration.auto.zura",
+            "match": "auto\\s+([A-Za-z_]+[A-Za-z0-9_]*)\\s*=",
+            "captures": {
+              "1": {
+                "name": "variable.name.declaration.zura"
+              }
+            }
+          }
+        ]
+      },
+      "builtin-types": {
+        "patterns": [
+          {
+            "name": "storage.type.builtin.signable.zura",
+            "match": "\\b(\\*)?(int|char|short|long)(!|\\?)?"
+          },
+          {
+            "name": "storage.type.builtin.unsignable.zura",
+            "match": "\\b(\\*)?(double|float|str|bool|void)\\b"
+          },
+          {
+            "name": "constant.language.boolean.zura",
+            "match": "\\b(true|false)\\b"
+          },
+          {
+            "name": "constant.language.nil.zura",
+            "match": "\\b(nil)\\b"
+          }
+        ]
+      }
     },
-    "variables": {
-      "patterns": [
-        {
-          "name": "variable.other.zura",
-          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
-        }
-      ]
-    }
+    "scopeName": "source.zu"
   }
-}
