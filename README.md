@@ -1,7 +1,7 @@
 # Zura Lsp and syntax highliter
 
 NOTE: This is heavily based on [lsp-sample from vscode-extension-samples][sample] with the goal of removing example-specific code to ease starting a new Language Server.
-NOTE: This was also my version of Jeffrey Chupp tutorial series https://www.youtube.com/watch?v=Xo5VXTRoL6Q&list=PLq5tGLDKHlW9XKRj5-plHdvbkT5AOdM7-
+NOTE: This was also my version of Jeffrey Chupp tutorial series <https://www.youtube.com/watch?v=Xo5VXTRoL6Q&list=PLq5tGLDKHlW9XKRj5-plHdvbkT5AOdM7->
 
 ## Getting Started
 
@@ -9,6 +9,7 @@ NOTE: This was also my version of Jeffrey Chupp tutorial series https://www.yout
 2. Run `npm install` from the repo root.
 
 ## Running in Vscode
+
 From the root directory of this project, run `code .` Then in VS Code
 
 1. Build the extension (both client and server) with `⌘+shift+B` (or `ctrl+shift+B` on windows)
@@ -21,47 +22,44 @@ From the root directory of this project, run `code .` Then in VS Code
 
 [Debugging instructions can be found here][debug]
 
-
-
 [debug]: https://code.visualstudio.com/api/language-extensions/language-server-extension-guide#debugging-both-client-and-server
 [sample]: https://github.com/microsoft/vscode-extension-samples/tree/main/lsp-sample
 [publish]: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
 [vsix]: https://code.visualstudio.com/api/working-with-extensions/publishing-extension#packaging-extensions
 
 ## Running in Nvim
-In your init.lua past the following into the config
+
+Place a file like this into your ./nvim/lua/plugins/zura.lua:
+
 ```lua
-vim.filetype.add {
-  extension = {
-    zu = "zura", -- Map .zu files to zura
-  },
-}
+return {
+  "neovim/nvim-lspconfig",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    -- Filetype setup
+    vim.filetype.add({
+      extension = { zu = "zura" },
+      pattern = { [".*%.zu"] = "zura" },
+    })
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = { "*.zu" },
-  callback = function()
-    -- Ensure .zu files are recognized as zura
-    vim.bo.filetype = "zura"
+    -- LSP setup
+    local lspconfig = require("lspconfig")
+    local configs = require("lspconfig.configs")
 
-    -- Check if the LSP is already attached
-    local clients = vim.lsp.get_clients()
-    for _, client in ipairs(clients) do
-      if client.name == "Zura Lsp" and client.config.cmd[3] == vim.fn.expand "~/Projects/Zura-Lsp/server/src/server.ts" then
-        return
-      end
+    if not configs.zura_ls then
+      configs.zura_ls = {
+        default_config = {
+          cmd = { "/home/thedevconnor/Zura-Transpiled/release/zura", "-lsp" },
+          filetypes = { "zura" },
+          root_dir = lspconfig.util.root_pattern(".git", ".zura-root"),
+        },
+      }
     end
 
-    -- Start the custom LSP
-    vim.lsp.start {
-      name = "Zura Lsp",
-      cmd = {
-        "npx",
-        "ts-node",
-        vim.fn.expand "~/Projects/Zura-Lsp/server/src/server.ts",
-      },
-      root_dir = vim.fn.getcwd(), -- Optionally set a root directory
-    }
+    lspconfig.zura_ls.setup({})
   end,
-})
-
+}
 ```
+
+Now, place the [`zura.vim`](./zura.vim) file into your `./nvim/syntax/` directory.
