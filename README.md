@@ -29,7 +29,6 @@ From the root directory of this project, run `code .` Then in VS Code
 
 ## Running in Nvim
 
-In your init.lua past the following into the config
 Place a file like this into your ./nvim/lua/plugins/zura.lua:
 
 ```lua
@@ -62,3 +61,5 @@ return {
   end,
 }
 ```
+
+Now, place the [`zura.vim`](./zura.vim) file into your `./nvim/syntax/` directory.
