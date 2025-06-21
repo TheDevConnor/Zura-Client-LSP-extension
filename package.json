@@ -44,6 +44,10 @@
 		],
 		"languages": [
 			{
+        "icon": {
+          "dark": "./assets/zura-icon.png",
+          "light": "./assets/zura-icon.png"
+        },
 				"id": "zura",
 				"aliases": [
 					"Zura",
@@ -56,7 +60,7 @@
 				"filenames": [
 					"zura"
 				],
-				"configuration": "./language-configuration.json"
+				"configuration": "./language_configuration.json"
 			}
 		]
 	},

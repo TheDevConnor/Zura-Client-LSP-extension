@@ -111,7 +111,7 @@
           },
           {
               "name": "support.function.at",
-              "match": "@(cast|import|link|extern|call|outputln|output|input|alloc|free|open|close|memcpy|sizeof|strcmp|getArgc|getArgv|recv|send|streq)"
+              "match": "@(cast|import|link|extern|call|outputln|output|input|alloc|free|open|close|memcpy|sizeof|strcmp|getArgc|getArgv|recv|send|streq|socket|bind|listen|accept)"
           }
         ]
       },
