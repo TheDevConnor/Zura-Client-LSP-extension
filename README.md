@@ -1,35 +1,45 @@
-# Zura Lsp and syntax highliter
+# Zura Lsp and Syntax Highliter
+
+[Zura](https://github.com/TheDevConnor/Zura-Transpiled) is a compiled programming language made by @TheSovietPancakes and I. Please check both of us out! :)
 
 NOTE: This is heavily based on [lsp-sample from vscode-extension-samples][sample] with the goal of removing example-specific code to ease starting a new Language Server.
-NOTE: This was also my version of Jeffrey Chupp tutorial series <https://www.youtube.com/watch?v=Xo5VXTRoL6Q&list=PLq5tGLDKHlW9XKRj5-plHdvbkT5AOdM7->
+NOTE: This was also my version of [Jeffrey Chupp tutorial series](https://www.youtube.com/watch?v=Xo5VXTRoL6Q&list=PLq5tGLDKHlW9XKRj5-plHdvbkT5AOdM7s).
 
-## Getting Started
-
-1. Clone this repo
-2. Run `npm install` from the repo root.
+> [!NOTE]
+> All files other than `zura.vim` are for VSCode. Go to [Running in Nvim](#running-in-nvim) to see how to set up the language server in Neovim.
 
 ## Running in Vscode
 
-From the root directory of this project, run `code .` Then in VS Code
+Option A:
 
-1. Build the extension (both client and server) with `⌘+shift+B` (or `ctrl+shift+B` on windows)
-2. Open the Run and Debug view and press "Launch Client" (or press `F5`). This will open a `[Extension Development Host]` VS Code window.
-3. Opening or editing a file in that window should show an information message in VS Code like you see below.
+1. Download the extension from the VSCode extension marketplace
 
-   ![example information message](https://semanticart.com/misc-images/minimum-viable-vscode-language-server-extension-info-message.png)
+Option B:
 
-4. Edits made to your `server.ts` will be rebuilt immediately but you'll need to "Launch Client" again (`⌘-shift-F5`) from the primary VS Code window to see the impact of your changes.
+1. Clone this repository
+2. Run `npm install` to install the dependencies
+3. Run `vsce package` to create a `.vsix` file that can be installed in VSCode.
+4. Run from the console `code --install-extension zura-lsp-0.0.1.vsix` to install the extension globally.
 
-[Debugging instructions can be found here][debug]
+Option C:
 
-[debug]: https://code.visualstudio.com/api/language-extensions/language-server-extension-guide#debugging-both-client-and-server
-[sample]: https://github.com/microsoft/vscode-extension-samples/tree/main/lsp-sample
-[publish]: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
-[vsix]: https://code.visualstudio.com/api/working-with-extensions/publishing-extension#packaging-extensions
+If you don't want to install the extension globally, you can open it in its own debug window by running the following:
+
+1. Clone this repository
+2. Run these commands:
+
+```bash
+npm install
+cd client
+npm install
+cd ..
+```
+
+3. Hit F5 on your keyboard or go to the Run and Debug tab and click "Start Debugging" top open the extension in a brand new window.
 
 ## Running in Nvim
 
-Place a file like this into your ./nvim/lua/plugins/zura.lua:
+Paste this code from [`zura-plugin.lua`](./zura-plugin.lua) into a file in your ./nvim/lua/plugins directory, for example: `./nvim/lua/plugins/zura.lua`
 
 ```lua
 return {
@@ -62,4 +72,58 @@ return {
 }
 ```
 
-Now, place the [`zura.vim`](./zura.vim) file into your `./nvim/syntax/` directory.
+Now, place the [`zura.vim`](./zura-syntax.vim) file into your `./nvim/syntax/` directory.
+It should look like this:
+
+```vim
+" zura.vim - Enhanced Syntax highlighting for Zura with custom colors
+
+" Define Zura keywords
+syn keyword zuraKeyword const fn have auto loop if else return enum struct typename template
+syn keyword zuraType int float bool str char
+syn match zuraBuiltIn /@\w\+/
+syn keyword zuraConditional if else
+syn keyword zuraLoop loop
+syn keyword zuraStatement return
+syn keyword zuraModifier const
+
+" Highlight numbers (integers and floats)
+syn match zuraNumber /\<\d\+\(\.\d\+\)\?\([eE][+-]\d\+\)\?/
+
+" Highlight strings (single and double quotes)
+syn region zuraString start=+"+ skip=+\\"+ end=+"+ contains=zuraEscape
+syn region zuraString start=+'+ skip=+\\'+ end=+'+ contains=zuraEscape
+
+" Highlight comments (single-line and multi-line)
+syn match zuraComment "#.*$"
+
+" Highlight structs, enums, and function declarations
+syn match zuraStruct /\<\(struct\|enum\)\>/
+syn match zuraFunction /\<fn\>\s\+\w\+\ze\s*[(]/
+
+" Highlight operators
+syn match zuraOperator /[:=(){}\[\],;.+\-*/<>]/
+
+" Highlight variables (avoid matching keywords)
+syn match zuraVariable /\<[a-zA-Z_]\w*\>/ contains=zuraKeyword,zuraType
+
+" Custom colors for Zura syntax (Horizon-style palette)
+hi def zuraKeyword guifg=#E95678 gui=bold               " Keywords: Warm pink
+hi def zuraType guifg=#25B0BC gui=italic                " Types: Vibrant cyan
+hi def zuraBuiltIn guifg=#FAB795 gui=bold,italic        " Built-ins: Peachy orange
+hi def zuraConditional guifg=#FAB28E gui=bold           " Conditionals: Muted orange
+hi def zuraLoop guifg=#FAB28E gui=bold                  " Loops: Muted orange
+hi def zuraStatement guifg=#FFD580 gui=italic           " Statements: Light peach
+hi def zuraModifier guifg=#25B0BC gui=bold              " Modifiers: Vibrant cyan
+hi def zuraNumber guifg=#E95678                         " Numbers: Warm pink
+hi def zuraString guifg=#09F7A0                         " Strings: Soft green
+hi def zuraComment guifg=#6C6F93 gui=italic             " Comments: Muted grayish-blue
+hi def zuraOperator guifg=#E95678                       " Operators: Warm pink
+hi def zuraStruct guifg=#25B0BC gui=bold                " Structs: Vibrant cyan
+hi def zuraFunction guifg=#FFD580 gui=bold              " Functions: Light peach
+hi def zuraVariable guifg=#FAB                          " Variables: light pink
+```
+
+## Afterwards
+
+Assuming you followed the steps above proprely, then as long as you have the Zura compiler installed on your system and in PATH under `zura`, you should be able to use the Zura language server and syntax highlighter on any `.zu` file.

@@ -1,7 +1,10 @@
 {
 	"name": "zura-lsp",
 	"description": "Zura Language Server and Syntax Highlighter",
-	"author": "TheDevConnor & SovietPancakes",
+	"author": "SovietPancakes+TheDevConnor",
+  "repository": {
+    "url": "https://github.com/TheSovietPancakes/Zura-Lsp"
+  },
 	"license": "MIT",
 	"version": "1.0.0",
 	"publisher": "TheDevConnor",
@@ -21,27 +24,11 @@
 				"path": "./syntaxes/zura.tmLanguage.json"
 			}
 		],
-		"debuggers": [
-			{
-				"type": "zura",
-				"label": "Zura Language Server",
-				"runtime": "zura",
-				"program": "zura",
-				"args": ["--debugger"],
-				"deprecated": "",
-				"hiddenWhen": "",
-				"languages": ["zura"],
-				"linux": {
-					"runtime": "zura"
-				},
-				"when": "",
-				"variables": {},
-				"strings": {},
-				"initialConfigurations": [],
-				"configurationAttributes": {},
-				"configurationSnippets": []
-			}
-		],
+    "commands": [{
+      "command": "zura.restartServer",
+      "title": "Restart Zura LSP",
+      "category": "Zura"
+    }],
 		"languages": [
 			{
         "icon": {

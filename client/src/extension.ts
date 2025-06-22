@@ -1,8 +1,7 @@
 import * as path from "path";
-import { workspace, ExtensionContext } from "vscode";
+import { workspace, ExtensionContext, commands, window } from "vscode";
 
 import {
-    ExecutableOptions,
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
@@ -37,6 +36,25 @@ export function activate(context: ExtensionContext) {
     serverOptions,
     clientOptions
   );
+  // Add a command (accessible via ctrl+shift+p) for restarting the server
+  const dispoable = commands.registerCommand(
+    "zura.restartServer",
+    async () => {
+      if (!client) return;
+      window.showInformationMessage("Restarting Zura LSP...");
+      await client.stop();
+      client = new LanguageClient(
+        "zura-lsp",
+        "Zura LSP",
+        serverOptions,
+        clientOptions
+      );
+      
+      await client.start();
+      window.showInformationMessage("Zura LSP restarted.");
+    }
+  )
+  context.subscriptions.push(dispoable);
 
   // Start the client. This will also launch the server
   client.start();
