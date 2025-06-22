@@ -19,7 +19,23 @@ Option B:
 1. Clone this repository
 2. Run `npm install` to install the dependencies
 3. Run `vsce package` to create a `.vsix` file that can be installed in VSCode.
-3a. Alternatively, you can open the project in a workspace and hit F5 to run the extension in a new VSCode debug window.
+4. Run from the console `code --install-extension zura-lsp-0.0.1.vsix` to install the extension globally.
+
+Option C:
+
+If you don't want to install the extension globally, you can open it in its own debug window by running the following:
+
+1. Clone this repository
+2. Run these commands:
+
+```bash
+npm install
+cd client
+npm install
+cd ..
+```
+
+3. Hit F5 on your keyboard or go to the Run and Debug tab and click "Start Debugging" top open the extension in a brand new window.
 
 ## Running in Nvim
 
