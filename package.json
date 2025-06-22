@@ -1,7 +1,10 @@
 {
 	"name": "zura-lsp",
 	"description": "Zura Language Server and Syntax Highlighter",
-	"author": "TheDevConnor & SovietPancakes",
+	"author": "SovietPancakes+TheDevConnor",
+  "repository": {
+    "url": "https://github.com/TheSovietPancakes/Zura-Lsp"
+  },
 	"license": "MIT",
 	"version": "1.0.0",
 	"publisher": "TheDevConnor",
